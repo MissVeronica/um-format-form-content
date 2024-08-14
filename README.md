@@ -12,6 +12,9 @@ Extension to Ultimate Member for display of custom HTML format of User Profile f
 ## UM Settings -> Appearance -> Profile Menu
 1. Enable Profile Menu Tabs only for User Profile Roles ie no Tabs for the Viewer Role 
 
+## UM Settings -> General -> Users
+1. * Select level of HTML allowed - Select one of the three levels of HTML allowed.
+
 ## Custom HTML formatted file
 1. Create the custom HTML file "formatted.html" with an offline HTML Editor
 2. HTML allowed are the same as for an UM email template.
@@ -23,7 +26,10 @@ Extension to Ultimate Member for display of custom HTML format of User Profile f
 8. Upload the HTML file "formatted.html" to the "format_form_content" directory
 9. Add the shortcode <code>[format_form_content]formatted.html[/format_form_content]</code> to a shortcode field of your "Profile View" form.
 
-## HTML allowed
+## Translations & Text changes
+1. For a few changes of text use the "Say What?" plugin with text domain ultimate-member
+2. https://wordpress.org/plugins/say-what/
+
 ## Updates
 None
 
