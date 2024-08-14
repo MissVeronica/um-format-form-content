@@ -1,2 +1,2 @@
 # UM Format Form Content
-Change display format of form content
+Extension to Ultimate Member for display of changed format of form content.
