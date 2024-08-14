@@ -16,7 +16,7 @@ Extension to Ultimate Member for display of custom HTML format of User Profile f
 1. * Select level of HTML allowed - Select one of the three levels of HTML allowed: Low, Medium, High
 
 ## Custom HTML formatted file
-1. Create the custom HTML file "formatted.html" with an offline HTML Editor
+1. Create the custom HTML file "formatted.html" with an offline HTML Editor or a text editor.
 2. HTML allowed are the same as for an UM email template if the medium HTML selection is used.
 3. The UM Free Extension plugin "User Meta Shortcode" can be used for display of Profile User meta values.
 4. https://ultimatemember.github.io/docs-v3/extended/article/1673-user-meta-shortcode.html
