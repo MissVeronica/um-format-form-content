@@ -1,5 +1,5 @@
 # UM Format Form Content shortcode
-Extension to Ultimate Member for display of custom HTML format of User Profile form content.
+Extension to Ultimate Member for display of custom HTML format of User Profile form content by a HTML formatted file being displayed by the shortcode.
 
 ## UM Forms Builder
 1. Create a new "Profile View" form
