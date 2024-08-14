@@ -26,6 +26,14 @@ Extension to Ultimate Member for display of custom HTML format of User Profile f
 8. Upload the HTML file "formatted.html" to the "format_form_content" directory
 9. Add the shortcode <code>[format_form_content]formatted.html[/format_form_content]</code> to a shortcode field of your "Profile View" form.
 
+## Example of "formatted.html" file
+ <code>
+ &lt;ul&gt;
+    &lt;li&gt;Name: {display_name}&lt;/li&gt;
+    &lt;li&gt;Profile description: [um_user meta_key="description"]&lt;/li&gt;
+    &lt;li&gt;My email is {email}&lt;/li&gt;
+&lt;/ul&gt;</code>
+
 ## Translations & Text changes
 1. For a few changes of text use the "Say What?" plugin with text domain ultimate-member
 2. https://wordpress.org/plugins/say-what/
