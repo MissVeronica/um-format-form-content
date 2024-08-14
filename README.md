@@ -1,2 +1,32 @@
 # UM Format Form Content shortcode
-Extension to Ultimate Member for display of changed format of form content.
+Extension to Ultimate Member for display of custom HTML format of User Profile form content.
+
+## UM Forms Builder
+1. Create a new "Profile View" form
+2. Make the form Role dependent for the Role of the Viewer
+
+## Profile page
+1. Add the "Profile View" UM shortcode after your current User Profile form shortcode
+2. UM will select form depending on which User Role is the visitor
+
+## UM Settings -> Appearance -> Profile Menu
+1. Enable Profile Menu Tabs only for User Profile Roles ie no Tabs for the Viewer Role 
+
+## Custom HTML formatted file
+1. Create the custom HTML file "formatted.html" with an offline HTML Editor
+2. HTML allowed are the same as for an UM email template.
+3. The UM Free Extension plugin "User Meta Shortcode" can be used for display of Profile User meta values.
+4. https://ultimatemember.github.io/docs-v3/extended/article/1673-user-meta-shortcode.html
+5. UM email templates placeholders can also be used.
+6. https://docs.ultimatemember.com/article/1340-placeholders-for-email-templates
+7. Create a new directory <code>.../wp-content/uploads/ultimatemember/format_form_content</code>
+8. Upload the HTML file "formatted.html" to the "format_form_content" directory
+9. Add the shortcode <code>[format_form_content]formatted.html[/format_form_content]</code> to a shortcode field of your "Profile View" form.
+
+## HTML allowed
+## Updates
+None
+
+## Installation & Updates
+1. Download the plugin ZIP file at the green Code button
+2. Install as a WP Plugin, activate the plugin.
