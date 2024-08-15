@@ -58,6 +58,7 @@ https://www.w3schools.com/html/default.asp
 ## Updates
 1. Version 1.1.0 Option to remove Profile Photos from selected Profile pages.
 2. Version 1.2.0 Addition of a common shortcode for the Profile page which will activate the right UM Form depending on the current User viewing the Profile.
+3. Version 1.2.1 Code improvement
 
 ## Installation & Updates
 1. Download the plugin ZIP file at the green Code button
