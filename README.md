@@ -1,4 +1,4 @@
-# UM Format Form Content shortcode
+# UM Format Form Content shortcode version 1.3.0
 Extension to Ultimate Member for display of custom HTML format of User Profile form contents by a HTML formatted file being displayed by the shortcode and option to remove Profile Photos from selected Profile pages.
 
 ## UM Forms Builder
