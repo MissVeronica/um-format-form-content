@@ -28,8 +28,7 @@ Extension to Ultimate Member for display of custom HTML format of User Profile f
 9. Add the shortcode <code>[format_form_content]formatted.html[/format_form_content]</code> to a shortcode field of your "Profile View" form in UM Forms Builder.
 
 #### Example of "formatted.html" file
- <code>
- &lt;ul&gt;
+ <code>&lt;ul&gt;
     &lt;li&gt;Name: {display_name}&lt;/li&gt;
     &lt;li&gt;Profile description:&lt;div&gt;[um_user meta_key="description"]&lt;/div&gt;&lt;/li&gt;
     &lt;li&gt;My email is {email}&lt;/li&gt;
