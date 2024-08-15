@@ -48,6 +48,9 @@ Extension to Ultimate Member for display of custom HTML format of User Profile f
 1. For a few changes of text use the "Say What?" plugin with text domain ultimate-member
 2. https://wordpress.org/plugins/say-what/
 
+## HTML Guide
+https://www.w3schools.com/html/default.asp
+
 ## User Profile Scrolling
 1. Extension to Ultimate Member for User Profile Scrolling via ID, username, display name, first or last name, user email or random.
 2. https://github.com/MissVeronica/um-user-profile-scrolling
