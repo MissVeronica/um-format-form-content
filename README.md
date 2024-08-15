@@ -6,17 +6,16 @@ Extension to Ultimate Member for display of custom HTML format of User Profile f
 2. Later you will add a shortcode field to this form for the display of HTML customized Profile info
 
 ## Profile page
-1. Add the shortcode and replace your current UM shortcode(s) with [select_um_shortcode] managed by this plugin for the display of Profile form depending on current User's Role.
+1. Add the shortcode and replace your current UM shortcode(s) with [select_um_shortcode] managed by this plugin for the display of Profile form depending on current User if it's the Profile owner or a Profile viewer.
 
 ## UM Settings -> Appearance -> Profile Menu
-1. Enable Profile Menu Tabs only for User Profile Roles ie no Tabs for the Viewer Role. This will remove the UM meny line 
+1. Enable Profile Menu Tabs only for the Profile owner ie no Tabs for visitors/viewers.
 
 ## UM Settings -> General -> Users
 1. * Select level of HTML tags allowed - Select one of the three levels of HTML tags allowed: Low, Medium, High
-2. * Select the User Role for the viewer - Select the Profile Role which will see the Profiles custom formatted User info.
-3. * Select Profile view only Form - Select the Profile form with the shortcode field for the [format_form_content] shortcode.
-4. * Select default User Profile Form - Select User Profile Form for the site\'s Members.
-5. * Profile Forms to remove Profile Photo - Select single or multiple Profile Forms for Profile Photo removal.
+2. * Select Profile view only Form - Select the Profile form with the shortcode field for the [format_form_content] shortcode.
+3. * Select default User Profile Form - Select User Profile Form for the site\'s Members.
+4. * Profile Forms to remove Profile Photo - Select single or multiple Profile Forms for Profile Photo removal.
 
 ## Custom HTML formatted file
 1. Create the custom HTML file "formatted.html" with an offline HTML Editor or a text Editor.
@@ -59,6 +58,7 @@ https://www.w3schools.com/html/default.asp
 1. Version 1.1.0 Option to remove Profile Photos from selected Profile pages.
 2. Version 1.2.0 Addition of a common shortcode for the Profile page which will activate the right UM Form depending on the current User viewing the Profile.
 3. Version 1.2.1 Code improvement
+4. Version 1.3.0 Removal of the Viewer Role selection. All User Roles can be equal. Profile Form selection depends on the URL User identification.
 
 ## Installation & Updates
 1. Download the plugin ZIP file at the green Code button
