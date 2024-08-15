@@ -6,7 +6,7 @@ Extension to Ultimate Member for display of custom HTML format of User Profile f
 2. Later you will add a shortcode field to this form for the display of HTML customized Profile info
 
 ## Profile page
-1. Add the shortcode and replace your current UM shortcode(s) with [select_um_shortcode] managed by this plugin for the display of Profile form depending on current User if it's the Profile owner or a Profile viewer.
+1. Add the shortcode and replace your current UM shortcode(s) with <code>[select_um_shortcode]</code> managed by this plugin for the display of Profile form depending on current User if it's the Profile owner or a Profile viewer.
 
 ## UM Settings -> Appearance -> Profile Menu
 1. Enable Profile Menu Tabs only for the Profile owner ie no Tabs for visitors/viewers.
@@ -58,7 +58,7 @@ https://www.w3schools.com/html/default.asp
 1. Version 1.1.0 Option to remove Profile Photos from selected Profile pages.
 2. Version 1.2.0 Addition of a common shortcode for the Profile page which will activate the right UM Form depending on the current User viewing the Profile.
 3. Version 1.2.1 Code improvement
-4. Version 1.3.0 Removal of the Viewer Role selection. All User Roles can be equal. Profile Form selection depends on the URL User identification.
+4. Version 1.3.0 Removal of the Viewer Role selection. All User Roles can be equal. Profile Form selection depends on the URL User identification. Profile Menu Tabs must be updated with "Owner only"
 
 ## Installation & Updates
 1. Download the plugin ZIP file at the green Code button
