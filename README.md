@@ -22,7 +22,7 @@ Extension to Ultimate Member for display of custom HTML format of User Profile f
 4. https://ultimatemember.github.io/docs-v3/extended/article/1673-user-meta-shortcode.html
 5. UM email templates placeholders can also be used.
 6. https://docs.ultimatemember.com/article/1340-placeholders-for-email-templates
-7. Create a new directory <code>.../wp-content/uploads/ultimatemember/format_form_content</code>
+7. Create a new web server directory <code>.../wp-content/uploads/ultimatemember/format_form_content</code> with cPanel FileManager or your FTP Client
 8. Upload the HTML file "formatted.html" to the "format_form_content" directory with your FTP client
 9. Add the shortcode <code>[format_form_content]formatted.html[/format_form_content]</code> to a shortcode field of your "Profile View" form.
 
