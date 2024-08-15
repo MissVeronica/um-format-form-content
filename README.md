@@ -1,21 +1,22 @@
 # UM Format Form Content shortcode
-Extension to Ultimate Member for display of custom HTML format of User Profile form content by a HTML formatted file being displayed by the shortcode and option to remove Profile Photos from selected Profile pages.
+Extension to Ultimate Member for display of custom HTML format of User Profile form contents by a HTML formatted file being displayed by the shortcode and option to remove Profile Photos from selected Profile pages.
 
 ## UM Forms Builder
 1. Create a new "Profile View" form
-2. Make the form Role dependent for the Role of the Viewer
-3. Later you will add a shortcode field to this form for the display of HTML customized Profile info
+2. Later you will add a shortcode field to this form for the display of HTML customized Profile info
 
 ## Profile page
-1. Add the "Profile View" UM shortcode after your current User Profile form shortcode
-2. UM will select form depending on which User Role is the visitor
+1. Add the shortcode and replace your current UM shortcode(s) with [select_um_shortcode] managed by this plugin for the display of Profile form depending on current User's Role.
 
 ## UM Settings -> Appearance -> Profile Menu
-1. Enable Profile Menu Tabs only for User Profile Roles ie no Tabs for the Viewer Role 
+1. Enable Profile Menu Tabs only for User Profile Roles ie no Tabs for the Viewer Role. This will remove the UM meny line 
 
 ## UM Settings -> General -> Users
 1. * Select level of HTML tags allowed - Select one of the three levels of HTML tags allowed: Low, Medium, High
-2. * Profile Forms to remove Profile Photo - Select single or multiple Profile Forms for Profile Photo removal.
+2. * Select the User Role for the viewer - Select the Profile Role which will see the Profiles custom formatted User info.
+3. * Select Profile view only Form - Select the Profile form with the shortcode field for the [format_form_content] shortcode.
+4. * Select default User Profile Form - Select User Profile Form for the site\'s Members.
+5. * Profile Forms to remove Profile Photo - Select single or multiple Profile Forms for Profile Photo removal.
 
 ## Custom HTML formatted file
 1. Create the custom HTML file "formatted.html" with an offline HTML Editor or a text Editor.
@@ -53,6 +54,7 @@ Extension to Ultimate Member for display of custom HTML format of User Profile f
 
 ## Updates
 1. Version 1.1.0 Option to remove Profile Photos from selected Profile pages.
+2. Version 1.2.0 Addition of a common shortcode for the Profile page which will activate the right UM Form depending on the current User viewing the Profile.
 
 ## Installation & Updates
 1. Download the plugin ZIP file at the green Code button
