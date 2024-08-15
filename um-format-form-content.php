@@ -2,7 +2,7 @@
 /**
  * Plugin Name:         Ultimate Member - Format Form Content shortcode
  * Description:         Extension to Ultimate Member for display of custom HTML format of User Profile form content and option to remove Profile Photos from selected Profile pages.
- * Version:             1.1.0
+ * Version:             1.2.0
  * Requires PHP:        7.4
  * Author:              Miss Veronica
  * License:             GPL v3 or later
@@ -19,22 +19,71 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 class UM_Format_Form_Content {
 
+    public $profile_forms = array();
+
+
     function __construct() {
 
         add_shortcode( 'format_form_content',                             array( $this, 'format_form_content_shortcode' ));
+        add_shortcode( 'select_um_shortcode',                             array( $this, 'format_form_content_select_um_shortcode' ));
 
         add_filter( 'um_settings_structure',                              array( $this, 'um_settings_structure_format_form_content' ), 10, 1 );
         add_filter( 'um_late_escaping_allowed_tags',                      array( $this, 'um_format_form_content_allowed_tags' ), 10, 2 );
         add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'format_form_content_settings_link' ), 10 );
         add_action( 'um_before_profile_main_meta',                        array( $this, 'um_before_profile_main_meta_photo_excl' ), 10, 1 );
+
+        $um_profile_forms = get_posts( array(   'meta_key'    => '_um_mode',
+                                                'meta_value'  => 'profile',
+                                                'numberposts' => -1,
+                                                'post_type'   => 'um_form',
+                                                'post_status' => 'publish'
+                                            ));
+
+        $profile_forms = array();
+        foreach( $um_profile_forms as $um_form ) {
+            $this->profile_forms[$um_form->ID] = $um_form->post_title;
+        }
+    }
+
+    public function format_form_content_select_um_shortcode() {
+
+        global $current_user;
+
+        $profile_form = UM()->options()->get( 'um_format_form_content_profile_form' );
+        if ( ! empty( $profile_form ) && array_key_exists( $profile_form, $this->profile_forms )) {
+            
+            $shortcode = '[ultimatemember form_id="' . $profile_form . '"]';
+
+            $viewer_role = UM()->options()->get( 'um_format_form_content_viewer_role' );
+            if ( ! empty( $viewer_role ) && array_key_exists( $viewer_role, UM()->roles()->get_roles() )) {
+
+                if ( in_array( $viewer_role, $current_user->roles )) {
+
+                    $view_form = UM()->options()->get( 'um_format_form_content_view_form' );
+                    if ( ! empty( $view_form ) && array_key_exists( $view_form, $this->profile_forms )) {
+
+                        $shortcode = '[ultimatemember form_id="' . $view_form . '"]';
+                    }
+                }
+            }
+
+            if ( version_compare( get_bloginfo( 'version' ),'5.4', '<' ) ) {
+                echo do_shortcode( $shortcode );
+
+            } else {
+                echo apply_shortcodes( $shortcode );
+            }
+        }
     }
 
     public function um_before_profile_main_meta_photo_excl( $args ) {
 
-        $profile_forms = array_map( 'sanitize_text_field', UM()->options()->get( 'um_format_form_content_forms' ));
+        $no_photo_forms = array_map( 'sanitize_text_field', UM()->options()->get( 'um_format_form_content_no_photo' ));
 
-        if ( in_array( $args['form_id'], $profile_forms )) {
+        if ( in_array( (string)$args['form_id'], $no_photo_forms )) {
+
             $html = str_replace( 'class="um-profile-photo-img"', 'style="display: none;"', ob_get_clean() );
+
             ob_start();
             echo $html;
         }
@@ -109,44 +158,59 @@ class UM_Format_Form_Content {
                                                                             $link, esc_attr( $plugin_data['Version'] )),
                                     );
 
-                    $um_profile_forms = get_posts( array(   'meta_key'    => '_um_mode',
-                                                            'meta_value'  => 'profile',
-                                                            'numberposts' => -1,
-                                                            'post_type'   => 'um_form',
-                                                            'post_status' => 'publish'
-                                                        ));
-
-                    $profile_forms = array();
-                    foreach( $um_profile_forms as $um_form ) {
-                            $profile_forms[$um_form->ID] = $um_form->post_title;
-                    }
-
                     $prefix = '&nbsp; * &nbsp;';
 
                     $section_fields = array();
 
                     $section_fields[] = array(
-                        'id'             => 'um_format_form_content_html',
-                        'type'           => 'select',
-                        'size'           => 'small',
-                        'options'        => array(
-                                                    'default'   => __( 'Low - Default WP HTML tags',        'ultimate-member' ),
-                                                    'templates' => __( 'Medium - Email template HTML tags', 'ultimate-member' ),
-                                                    'wp-admin'  => __( 'High - WP Admin HTML tags',         'ultimate-member' ),
-                                                ),
-                        'label'          => $prefix . __( 'Select level of HTML tags allowed', 'ultimate-member' ),
-                        'description'    => __( 'Select one of the three levels of HTML tags allowed: Low, Medium, High', 'ultimate-member' ),
-                    );
+                                'id'             => 'um_format_form_content_html',
+                                'type'           => 'select',
+                                'size'           => 'small',
+                                'options'        => array(
+                                                            'default'   => __( 'Low - Default WP HTML tags',        'ultimate-member' ),
+                                                            'templates' => __( 'Medium - Email template HTML tags', 'ultimate-member' ),
+                                                            'wp-admin'  => __( 'High - WP Admin HTML tags',         'ultimate-member' ),
+                                                        ),
+                                'label'          => $prefix . __( 'Select level of HTML tags allowed', 'ultimate-member' ),
+                                'description'    => __( 'Select one of the three levels of HTML tags allowed: Low, Medium, High', 'ultimate-member' ),
+                            );
 
                     $section_fields[] = array(
-                        'id'             => 'um_format_form_content_forms',
-                        'type'           => 'select',
-                        'multi'          => true,
-                        'size'           => 'medium',
-                        'options'        => $profile_forms,
-                        'label'          => $prefix . __( 'Profile Forms to remove Profile Photo', 'ultimate-member' ),
-                        'description'    => __( 'Select single or multiple Profile Forms for Profile Photo removal.', 'ultimate-member' ),
-                    );
+                                'id'             => 'um_format_form_content_viewer_role',
+                                'type'           => 'select',
+                                'size'           => 'medium',
+                                'options'        => UM()->roles()->get_roles(),
+                                'label'          => $prefix . __( 'Select the User Role for the viewer', 'ultimate-member' ),
+                                'description'    => __( 'Select the Profile Role which will see the Profiles custom formatted User info.', 'ultimate-member' ),
+                            );
+
+                    $section_fields[] = array(
+                                'id'             => 'um_format_form_content_view_form',
+                                'type'           => 'select',
+                                'size'           => 'medium',
+                                'options'        => $this->profile_forms,
+                                'label'          => $prefix . __( 'Select Profile view only Form', 'ultimate-member' ),
+                                'description'    => __( 'Select the Profile form with the shortcode field for the [format_form_content] shortcode.', 'ultimate-member' ),
+                            );
+
+                    $section_fields[] = array(
+                                'id'             => 'um_format_form_content_profile_form',
+                                'type'           => 'select',
+                                'size'           => 'medium',
+                                'options'        => $this->profile_forms,
+                                'label'          => $prefix . __( 'Select default User Profile Form', 'ultimate-member' ),
+                                'description'    => __( 'Select User Profile Form for the site\'s Members.', 'ultimate-member' ),
+                            );
+
+                    $section_fields[] = array(
+                                'id'             => 'um_format_form_content_no_photo',
+                                'type'           => 'select',
+                                'multi'          => true,
+                                'size'           => 'medium',
+                                'options'        => $this->profile_forms,
+                                'label'          => $prefix . __( 'Profile Forms to remove Profile Photo', 'ultimate-member' ),
+                                'description'    => __( 'Select single or multiple Profile Forms for Profile Photo removal.', 'ultimate-member' ),
+                            );
 
                     $settings_structure['']['sections']['users']['form_sections']['format_form_content'] = $header;
                     $settings_structure['']['sections']['users']['form_sections']['format_form_content']['fields'] = $section_fields;
@@ -159,3 +223,4 @@ class UM_Format_Form_Content {
 }
 
 new UM_Format_Form_Content();
+
