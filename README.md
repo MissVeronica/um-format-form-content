@@ -30,9 +30,17 @@ Extension to Ultimate Member for display of custom HTML format of User Profile f
  <code>
  &lt;ul&gt;
     &lt;li&gt;Name: {display_name}&lt;/li&gt;
-    &lt;li&gt;Profile description: [um_user meta_key="description"]&lt;/li&gt;
+    &lt;li&gt;Profile description:&lt;div&gt;[um_user meta_key="description"]&lt;/div&gt;&lt;/li&gt;
     &lt;li&gt;My email is {email}&lt;/li&gt;
 &lt;/ul&gt;</code>
+
+
+#### Displayed format and plugin will do the placeholder translations and the shortcode before display at the Profile page:
+<ul>
+    <li>Name: {display_name}</li>
+    <li>Profile description: <div>[um_user meta_key="description"]</div></li>
+    <li>My email is {email}</li>
+</ul>
 
 ## Translations & Text changes
 1. For a few changes of text use the "Say What?" plugin with text domain ultimate-member
