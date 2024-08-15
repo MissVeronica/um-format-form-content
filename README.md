@@ -4,6 +4,7 @@ Extension to Ultimate Member for display of custom HTML format of User Profile f
 ## UM Forms Builder
 1. Create a new "Profile View" form
 2. Make the form Role dependent for the Role of the Viewer
+3. Later you will add a shortcode field to this form for the display of HTML customized Profile info
 
 ## Profile page
 1. Add the "Profile View" UM shortcode after your current User Profile form shortcode
