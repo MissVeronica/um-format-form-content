@@ -14,11 +14,11 @@ Extension to Ultimate Member for display of custom HTML format of User Profile f
 1. Enable Profile Menu Tabs only for User Profile Roles ie no Tabs for the Viewer Role 
 
 ## UM Settings -> General -> Users
-1. * Select level of HTML allowed - Select one of the three levels of HTML allowed: Low, Medium, High
+1. * Select level of HTML tags allowed - Select one of the three levels of HTML tags allowed: Low, Medium, High
 
 ## Custom HTML formatted file
 1. Create the custom HTML file "formatted.html" with an offline HTML Editor or a text Editor.
-2. HTML allowed are the same as for an UM email template if the medium HTML selection is used.
+2. HTML allowed tags are the same as for an UM email template if the medium HTML tags selection is used.
 3. The UM Free Extension plugin "User Meta Shortcode" can be used for display of Profile User meta values.
 4. https://ultimatemember.github.io/docs-v3/extended/article/1673-user-meta-shortcode.html
 5. UM email templates placeholders can also be used.
@@ -27,7 +27,7 @@ Extension to Ultimate Member for display of custom HTML format of User Profile f
 8. Upload the HTML file "formatted.html" to the "format_form_content" directory with your FTP client
 9. Add the shortcode <code>[format_form_content]formatted.html[/format_form_content]</code> to a shortcode field of your "Profile View" form in UM Forms Builder.
 
-#### Example of "formatted.html" file
+#### Example of the "formatted.html" file
  <code>&lt;ul&gt;
     &lt;li&gt;Name: {display_name}&lt;/li&gt;
     &lt;li&gt;Profile description:&lt;div&gt;[um_user meta_key="description"]&lt;/div&gt;&lt;/li&gt;
