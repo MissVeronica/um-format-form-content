@@ -24,7 +24,7 @@ Extension to Ultimate Member for display of custom HTML format of User Profile f
 6. https://docs.ultimatemember.com/article/1340-placeholders-for-email-templates
 7. Create a new web server directory <code>.../wp-content/uploads/ultimatemember/format_form_content</code> with cPanel FileManager or your FTP Client
 8. Upload the HTML file "formatted.html" to the "format_form_content" directory with your FTP client
-9. Add the shortcode <code>[format_form_content]formatted.html[/format_form_content]</code> to a shortcode field of your "Profile View" form.
+9. Add the shortcode <code>[format_form_content]formatted.html[/format_form_content]</code> to a shortcode field of your "Profile View" form in UM Forms Builder.
 
 ## Example of "formatted.html" file
  <code>
@@ -43,4 +43,4 @@ None
 
 ## Installation & Updates
 1. Download the plugin ZIP file at the green Code button
-2. Install as a WP Plugin, activate the plugin.
+2. Install and upload with WP as a new WP Plugin, activate the plugin.
