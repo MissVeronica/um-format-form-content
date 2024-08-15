@@ -43,4 +43,4 @@ None
 
 ## Installation & Updates
 1. Download the plugin ZIP file at the green Code button
-2. Install and upload with WP as a new WP Plugin, activate the plugin.
+2. Upload and install with WP as a new WP Plugin, activate the plugin.
