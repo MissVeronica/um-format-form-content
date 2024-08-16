@@ -1,4 +1,4 @@
-# UM Format Form Content shortcode version 1.3.0
+# UM Format Form Content shortcode version 1.4.0
 Extension to Ultimate Member for display of custom HTML format of User Profile form contents by a HTML formatted file being displayed by the shortcode and option to remove Profile Photos from selected Profile pages.
 
 ## UM Forms Builder
@@ -15,6 +15,7 @@ Extension to Ultimate Member for display of custom HTML format of User Profile f
 1. * Select level of HTML tags allowed - Select one of the three levels of HTML tags allowed: Low, Medium, High
 2. * Select Profile view only Form - Select the Profile form with the shortcode field for the [format_form_content] shortcode.
 3. * Select default User Profile Form - Select User Profile Form for the site\'s Members.
+4. * Make a HTML file - Click to make a HTML file of this User Profile Form to "formatted-FORMID.html" in the upload directory. Rename file for editing.
 4. * Profile Forms to remove Profile Photo - Select single or multiple Profile Forms for Profile Photo removal.
 
 ## UM Settings -> General -> Users
@@ -62,6 +63,7 @@ https://www.w3schools.com/html/default.asp
 2. Version 1.2.0 Addition of a common shortcode for the Profile page which will activate the right UM Form depending on the current User viewing the Profile.
 3. Version 1.2.1 Code improvement
 4. Version 1.3.0 Removal of the Viewer Role selection. All User Roles can be equal. Profile Form selection depends on the URL User identification. Profile Menu Tabs must be updated with "Owner only". Limited support for "Profile Permalink Base" settings.
+5. Version 1.4.0 Administrators are excluded from View only Profile Forms. Setting for creating of a HTML file of all Profile fields.
 
 ## Installation & Updates
 1. Download the plugin ZIP file at the green Code button
