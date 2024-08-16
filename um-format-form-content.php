@@ -2,7 +2,7 @@
 /**
  * Plugin Name:         Ultimate Member - Format Form Content shortcode
  * Description:         Extension to Ultimate Member for display of custom HTML format of User Profile form content and option to remove Profile Photos from selected Profile pages.
- * Version:             1.2.1
+ * Version:             1.3.0
  * Requires PHP:        7.4
  * Author:              Miss Veronica
  * License:             GPL v3 or later
@@ -15,7 +15,7 @@
  * UM version:          2.8.6
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit; 
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 class UM_Format_Form_Content {
 
@@ -39,9 +39,14 @@ class UM_Format_Form_Content {
                                                 'post_status' => 'publish'
                                             ));
 
-        $profile_forms = array();
-        foreach( $um_profile_forms as $um_form ) {
-            $this->profile_forms[$um_form->ID] = $um_form->post_title;
+        if ( ! empty( $um_profile_forms ) && is_array( $um_profile_forms )) {
+
+            foreach( $um_profile_forms as $um_form ) {
+
+                if ( ! empty( $um_form )) {
+                    $this->profile_forms[$um_form->ID] = $um_form->post_title;
+                }
+            }
         }
     }
 
@@ -49,15 +54,36 @@ class UM_Format_Form_Content {
 
         global $current_user;
 
-        $profile_form = UM()->options()->get( 'um_format_form_content_profile_form' );
-        if ( ! empty( $profile_form ) && array_key_exists( $profile_form, $this->profile_forms )) {
-            
-            $shortcode = '[ultimatemember form_id="' . $profile_form . '"]';
+        if ( class_exists( 'UM' )) {
 
-            $viewer_role = UM()->options()->get( 'um_format_form_content_viewer_role' );
-            if ( ! empty( $viewer_role ) && array_key_exists( $viewer_role, UM()->roles()->get_roles() )) {
+            $profile_form = UM()->options()->get( 'um_format_form_content_profile_form' );
+            if ( ! empty( $profile_form ) && array_key_exists( $profile_form, $this->profile_forms )) {
 
-                if ( in_array( $viewer_role, $current_user->roles )) {
+                $shortcode = '[ultimatemember form_id="' . $profile_form . '"]';
+
+                $profile_id = $current_user->ID;
+                $um_user = get_query_var( 'um_user' );
+                $permalink_base = UM()->options()->get( 'permalink_base' );
+
+                if ( ! empty( $permalink_base ) && ! empty( $um_user )) {
+
+                    switch( $permalink_base ) {
+
+                        case 'user_login':  $um_user = str_replace( '+', ' ', $um_user );
+                                            $user = get_user_by( 'login', $um_user );
+                                            if ( ! empty( $user )) {
+                                                $profile_id = $user->ID;
+                                            }
+                                            break;
+
+                        case 'user_id':     $profile_id = $um_user;
+                                            break;
+
+                        default:            $profile_id = $current_user->ID;
+                    }
+                }
+
+                if ( ! empty( $profile_id ) && $profile_id != $current_user->ID && um_can_view_profile( $profile_id )) {
 
                     $view_form = UM()->options()->get( 'um_format_form_content_view_form' );
                     if ( ! empty( $view_form ) && array_key_exists( $view_form, $this->profile_forms )) {
@@ -65,13 +91,13 @@ class UM_Format_Form_Content {
                         $shortcode = '[ultimatemember form_id="' . $view_form . '"]';
                     }
                 }
-            }
 
-            if ( version_compare( get_bloginfo( 'version' ),'5.4', '<' ) ) {
-                echo do_shortcode( $shortcode );
+                if ( version_compare( get_bloginfo( 'version' ),'5.4', '<' ) ) {
+                    echo do_shortcode( $shortcode );
 
-            } else {
-                echo apply_shortcodes( $shortcode );
+                } else {
+                    echo apply_shortcodes( $shortcode );
+                }
             }
         }
     }
@@ -80,7 +106,7 @@ class UM_Format_Form_Content {
 
         $no_photo = UM()->options()->get( 'um_format_form_content_no_photo' );
 
-        if ( ! empty( $no_photo )) {
+        if ( ! empty( $no_photo ) && is_array( $no_photo )) {
             $no_photo_forms = array_map( 'sanitize_text_field', $no_photo );
 
             if ( in_array( (string)$args['form_id'], $no_photo_forms )) {
@@ -177,15 +203,6 @@ class UM_Format_Form_Content {
                                                         ),
                                 'label'          => $prefix . __( 'Select level of HTML tags allowed', 'ultimate-member' ),
                                 'description'    => __( 'Select one of the three levels of HTML tags allowed: Low, Medium, High', 'ultimate-member' ),
-                            );
-
-                    $section_fields[] = array(
-                                'id'             => 'um_format_form_content_viewer_role',
-                                'type'           => 'select',
-                                'size'           => 'medium',
-                                'options'        => UM()->roles()->get_roles(),
-                                'label'          => $prefix . __( 'Select the User Role for the viewer', 'ultimate-member' ),
-                                'description'    => __( 'Select the Profile Role which will see the Profiles custom formatted User info.', 'ultimate-member' ),
                             );
 
                     $section_fields[] = array(
