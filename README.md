@@ -1,4 +1,4 @@
-# UM Format Form Content shortcode version 1.4.1
+# UM Format Form Content shortcode version 1.5.0
 Extension to Ultimate Member for display of custom HTML format of User Profile form contents by a HTML formatted file being displayed by the shortcode and option to remove Profile Photos from selected Profile pages.
 
 ## UM Forms Builder
@@ -16,7 +16,8 @@ Extension to Ultimate Member for display of custom HTML format of User Profile f
 2. * Select Profile view only Form - Select the Profile form with the shortcode field for the [format_form_content] shortcode.
 3. * Select default User Profile Form - Select User Profile Form for the site\'s Members.
 4. * Make a HTML file - Click to make a HTML file of this User Profile Form to "formatted-FORMID.html" in the upload directory. Rename file for editing.
-4. * Profile Forms to remove Profile Photo - Select single or multiple Profile Forms for Profile Photo removal.
+5. * Select HTML file for shortcode formatting - Select HTML file for use by the shortcode [format_form_content] in the formatting
+6. * Profile Forms to remove Profile Photo - Select single or multiple Profile Forms for Profile Photo removal.
 
 ## UM Settings -> General -> Users
 1. Profile Permalink Base - Current version of the plugin only supports "User ID" and "Username"
@@ -30,7 +31,7 @@ Extension to Ultimate Member for display of custom HTML format of User Profile f
 6. https://docs.ultimatemember.com/article/1340-placeholders-for-email-templates
 7. Create a new web server directory <code>.../wp-content/uploads/ultimatemember/format_form_content</code> with cPanel FileManager or your FTP Client
 8. Upload the HTML file "formatted.html" to the "format_form_content" directory with your FTP client
-9. Add the shortcode <code>[format_form_content]formatted.html[/format_form_content]</code> to a shortcode field of your "Profile View" form in UM Forms Builder.
+9. Add the shortcode <code>[format_form_content]</code> to a shortcode field of your "Profile View" form in UM Forms Builder.
 
 #### Example of the "formatted.html" file
  <code>&lt;ul&gt;
@@ -65,6 +66,7 @@ https://www.w3schools.com/html/default.asp
 4. Version 1.3.0 Removal of the Viewer Role selection. All User Roles can be equal. Profile Form selection depends on the URL User identification. Profile Menu Tabs must be updated with "Owner only". Limited support for "Profile Permalink Base" settings.
 5. Version 1.4.0 Administrators are excluded from View only Profile Forms. Setting for creation of a HTML file of all Profile fields sorted by field title.
 6. Version 1.4.1 Added missing "date" type in HTML file
+7. Version 1.5.0 Addition of HTML file selection dropdown which replaces file name in the shortcode now only <code>[format_form_content]</code> is required
 
 ## Installation & Updates
 1. Download the plugin ZIP file at the green Code button
