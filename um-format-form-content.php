@@ -2,7 +2,7 @@
 /**
  * Plugin Name:         Ultimate Member - Format Form Content shortcode
  * Description:         Extension to Ultimate Member for display of custom HTML format of User Profile form content and option to remove Profile Photos from selected Profile pages.
- * Version:             1.4.1
+ * Version:             1.5.0
  * Requires PHP:        7.4
  * Author:              Miss Veronica
  * License:             GPL v3 or later
@@ -145,31 +145,41 @@ class UM_Format_Form_Content {
 
     public function format_form_content_shortcode( $atts = false, $content = false ) {
 
-        if ( ! empty( $content ) && class_exists( 'UM' )) {
+        if ( class_exists( 'UM' )) {
 
-            $file_name = $this->directory . trim( $content );
-            if ( file_exists( $file_name )) {
+            $html_file = UM()->options()->get( 'um_format_form_content_profile_html_file' );
 
-                $file_content = file_get_contents( $file_name );
-                if ( ! empty( $file_content )) {
+            if ( empty( $html_file ) && ! empty( $content )) {
+                $html_file = trim( $content );
+            }
 
-                    $html_level = UM()->options()->get( 'um_format_form_content_html' );
-                    if ( in_array( $html_level, array( 'default', 'templates', 'wp-admin' ))) {
+            if ( ! empty( $html_file )) {
 
-                        if ( version_compare( get_bloginfo( 'version' ),'5.4', '<' ) ) {
-                            $html = do_shortcode( $file_content );
+                $html_file = $this->directory . $html_file;
 
-                        } else {
-                            $html = apply_shortcodes( $file_content );
+                if ( file_exists( $html_file )) {
+
+                    $file_content = file_get_contents( $html_file );
+                    if ( ! empty( $file_content )) {
+
+                        $html_level = UM()->options()->get( 'um_format_form_content_html' );
+                        if ( in_array( $html_level, array( 'default', 'templates', 'wp-admin' ))) {
+
+                            if ( version_compare( get_bloginfo( 'version' ),'5.4', '<' ) ) {
+                                $html = do_shortcode( $file_content );
+
+                            } else {
+                                $html = apply_shortcodes( $file_content );
+                            }
+
+                            add_filter( 'um_template_tags_patterns_hook', array( UM()->mail(), 'add_placeholder' ), 10, 1 );
+                            add_filter( 'um_template_tags_replaces_hook', array( UM()->mail(), 'add_replace_placeholder' ), 10, 1 );
+
+                            $html = um_convert_tags( $html, array() );
+                            $html = wp_kses( $html, UM()->get_allowed_html( $html_level ) );
+
+                            return $html;
                         }
-
-                        add_filter( 'um_template_tags_patterns_hook', array( UM()->mail(), 'add_placeholder' ), 10, 1 );
-                        add_filter( 'um_template_tags_replaces_hook', array( UM()->mail(), 'add_replace_placeholder' ), 10, 1 );
-
-                        $html = um_convert_tags( $html, array() );
-                        $html = wp_kses( $html, UM()->get_allowed_html( $html_level ) );
-
-                        return $html;
                     }
                 }
             }
@@ -222,7 +232,7 @@ class UM_Format_Form_Content {
 
                             asort( $um_user_meta );
 
-                            $html = "<ul>\n";
+                            $html = "<div style=\"padding-left: 30px;\"><ul>\n";
                             foreach( $um_user_meta as $metakey => $title ) {
 
                                 if ( $form_fields[$metakey]['type'] == 'textarea' ) {
@@ -233,10 +243,29 @@ class UM_Format_Form_Content {
                                 }
                             }
 
-                            $html .= "</ul>\n";
+                            $html .= "</ul></div>\n";
 
                             $file_name = $this->directory . 'formatted-' . $form_id . '.html';
                             file_put_contents( $file_name, $html );
+                        }
+                    }
+
+                    $all_html_files = array();
+                    $files = glob( $this->directory . '*.html' );
+
+                    if ( ! empty( $files ) && is_array( $files )) {
+
+                        foreach( $files as $file ) {
+
+                            $file_name = str_replace( $this->directory, '', $file );
+                            $file_form_id = explode( '-', str_replace( '.html', '', $file_name ));
+
+                            $profile_form = __( 'Unknown Profile Form', 'ultimate-member' );
+                            if ( count( $file_form_id ) == 2 && isset( $this->profile_forms[$file_form_id[1]] )) {
+                                $profile_form = $this->profile_forms[$file_form_id[1]];
+                            }
+
+                            $all_html_files[$file_name] = $file_name . ' - ' . $profile_form;
                         }
                     }
 
@@ -297,6 +326,15 @@ class UM_Format_Form_Content {
                             );
 
                     $section_fields[] = array(
+                                'id'             => 'um_format_form_content_profile_html_file',
+                                'type'           => 'select',
+                                'size'           => 'medium',
+                                'options'        => $all_html_files,
+                                'label'          => $prefix . __( 'Select HTML file for shortcode formatting', 'ultimate-member' ),
+                                'description'    => __( 'Select HTML file for use by the shortcode [format_form_content] in the formatting', 'ultimate-member' ),
+                            );
+
+                    $section_fields[] = array(
                                 'id'             => 'um_format_form_content_no_photo',
                                 'type'           => 'select',
                                 'multi'          => true,
@@ -317,3 +355,4 @@ class UM_Format_Form_Content {
 }
 
 new UM_Format_Form_Content();
+
