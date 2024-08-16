@@ -2,7 +2,7 @@
 /**
  * Plugin Name:         Ultimate Member - Format Form Content shortcode
  * Description:         Extension to Ultimate Member for display of custom HTML format of User Profile form content and option to remove Profile Photos from selected Profile pages.
- * Version:             1.4.0
+ * Version:             1.4.1
  * Requires PHP:        7.4
  * Author:              Miss Veronica
  * License:             GPL v3 or later
@@ -26,6 +26,7 @@ class UM_Format_Form_Content {
                                             'text',
                                             'tel',
                                             'url',
+                                            'date',
                                             'textarea',
                                             'radio',
                                             'select',
