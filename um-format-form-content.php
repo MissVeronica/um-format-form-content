@@ -2,7 +2,7 @@
 /**
  * Plugin Name:         Ultimate Member - Format Form Content shortcode
  * Description:         Extension to Ultimate Member for display of custom HTML format of User Profile form content and option to remove Profile Photos from selected Profile pages.
- * Version:             1.3.0
+ * Version:             1.4.0
  * Requires PHP:        7.4
  * Author:              Miss Veronica
  * License:             GPL v3 or later
@@ -20,8 +20,26 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class UM_Format_Form_Content {
 
     public $profile_forms = array();
+    public $directory     = '';
 
+    public $include_field_types  = array(
+                                            'text',
+                                            'tel',
+                                            'url',
+                                            'textarea',
+                                            'radio',
+                                            'select',
+                                            'multiselect',
+                                            'checkbox',
+                                            'number',
+                                            'wp_editor',
+                                        );
 
+    public $except_metakeys = array(
+                                            'password',
+                                            'role_select',
+                                            'role_radio',
+                                        );
     function __construct() {
 
         add_shortcode( 'format_form_content',                             array( $this, 'format_form_content_shortcode' ));
@@ -48,6 +66,8 @@ class UM_Format_Form_Content {
                 }
             }
         }
+
+        $this->directory = WP_CONTENT_DIR . '/uploads/ultimatemember/format_form_content/';
     }
 
     public function format_form_content_select_um_shortcode() {
@@ -61,34 +81,37 @@ class UM_Format_Form_Content {
 
                 $shortcode = '[ultimatemember form_id="' . $profile_form . '"]';
 
-                $profile_id = $current_user->ID;
-                $um_user = get_query_var( 'um_user' );
-                $permalink_base = UM()->options()->get( 'permalink_base' );
+                if ( ! current_user_can( 'administrator' )) {
 
-                if ( ! empty( $permalink_base ) && ! empty( $um_user )) {
+                    $profile_id = $current_user->ID;
+                    $um_user = get_query_var( 'um_user' );
+                    $permalink_base = UM()->options()->get( 'permalink_base' );
 
-                    switch( $permalink_base ) {
+                    if ( ! empty( $permalink_base ) && ! empty( $um_user )) {
 
-                        case 'user_login':  $um_user = str_replace( '+', ' ', $um_user );
-                                            $user = get_user_by( 'login', $um_user );
-                                            if ( ! empty( $user )) {
-                                                $profile_id = $user->ID;
-                                            }
-                                            break;
+                        switch( $permalink_base ) {
 
-                        case 'user_id':     $profile_id = $um_user;
-                                            break;
+                            case 'user_login':  $um_user = str_replace( '+', ' ', $um_user );
+                                                $user = get_user_by( 'login', $um_user );
+                                                if ( ! empty( $user )) {
+                                                    $profile_id = $user->ID;
+                                                }
+                                                break;
 
-                        default:            $profile_id = $current_user->ID;
+                            case 'user_id':     $profile_id = $um_user;
+                                                break;
+
+                            default:            $profile_id = $current_user->ID;
+                        }
                     }
-                }
 
-                if ( ! empty( $profile_id ) && $profile_id != $current_user->ID && um_can_view_profile( $profile_id )) {
+                    if ( ! empty( $profile_id ) && $profile_id != $current_user->ID && um_can_view_profile( $profile_id )) {
 
-                    $view_form = UM()->options()->get( 'um_format_form_content_view_form' );
-                    if ( ! empty( $view_form ) && array_key_exists( $view_form, $this->profile_forms )) {
+                        $view_form = UM()->options()->get( 'um_format_form_content_view_form' );
+                        if ( ! empty( $view_form ) && array_key_exists( $view_form, $this->profile_forms )) {
 
-                        $shortcode = '[ultimatemember form_id="' . $view_form . '"]';
+                            $shortcode = '[ultimatemember form_id="' . $view_form . '"]';
+                        }
                     }
                 }
 
@@ -123,7 +146,7 @@ class UM_Format_Form_Content {
 
         if ( ! empty( $content ) && class_exists( 'UM' )) {
 
-            $file_name = WP_CONTENT_DIR . '/uploads/ultimatemember/format_form_content/' . trim( $content );
+            $file_name = $this->directory . trim( $content );
             if ( file_exists( $file_name )) {
 
                 $file_content = file_get_contents( $file_name );
@@ -132,18 +155,20 @@ class UM_Format_Form_Content {
                     $html_level = UM()->options()->get( 'um_format_form_content_html' );
                     if ( in_array( $html_level, array( 'default', 'templates', 'wp-admin' ))) {
 
+                        if ( version_compare( get_bloginfo( 'version' ),'5.4', '<' ) ) {
+                            $html = do_shortcode( $file_content );
+
+                        } else {
+                            $html = apply_shortcodes( $file_content );
+                        }
+
                         add_filter( 'um_template_tags_patterns_hook', array( UM()->mail(), 'add_placeholder' ), 10, 1 );
                         add_filter( 'um_template_tags_replaces_hook', array( UM()->mail(), 'add_replace_placeholder' ), 10, 1 );
 
-                        $file_content = um_convert_tags( $file_content, array() );
-                        $file_content = wp_kses( $file_content, UM()->get_allowed_html( $html_level ) );
+                        $html = um_convert_tags( $html, array() );
+                        $html = wp_kses( $html, UM()->get_allowed_html( $html_level ) );
 
-                        if ( version_compare( get_bloginfo( 'version' ),'5.4', '<' ) ) {
-                            return do_shortcode( $file_content );
-
-                        } else {
-                            return apply_shortcodes( $file_content );
-                        }
+                        return $html;
                     }
                 }
             }
@@ -173,6 +198,46 @@ class UM_Format_Form_Content {
             if ( isset( $_REQUEST['section'] ) && $_REQUEST['section'] == 'users' ) {
 
                 if ( ! isset( $settings_structure['']['sections']['users']['form_sections']['format_form_content']['fields'] )) {
+
+                    if ( UM()->options()->get( 'um_format_form_content_profile_form_html' ) == 1 ) {
+
+                        $form_id = UM()->options()->get( 'um_format_form_content_profile_form' );
+
+                        if ( ! empty( $form_id )) {
+
+                            $form_fields = get_post_meta( $form_id, '_um_custom_fields', true );
+                            $um_user_meta = array();
+
+                            foreach( $form_fields as $metakey => $form_field ) {
+
+                                if ( in_array( $form_field['type'], $this->include_field_types ) && ! in_array( $metakey, $this->except_metakeys )) {
+
+                                    $title = isset( $form_field['title'] ) ? $form_field['title'] : '';
+                                    $title = isset( $form_field['label'] ) ? $form_field['label'] : $title;
+
+                                    $um_user_meta[$metakey] = esc_attr( $title );
+                                }
+                            }
+
+                            asort( $um_user_meta );
+
+                            $html = "<ul>\n";
+                            foreach( $um_user_meta as $metakey => $title ) {
+
+                                if ( $form_fields[$metakey]['type'] == 'textarea' ) {
+                                    $html .= "<li>{$title}: <div>[um_user meta_key=\"{$metakey}\"]</div></li>\n";
+
+                                } else {
+                                    $html .= "<li>{$title}: [um_user meta_key=\"{$metakey}\"]</li>\n";
+                                }
+                            }
+
+                            $html .= "</ul>\n";
+
+                            $file_name = $this->directory . 'formatted-' . $form_id . '.html';
+                            file_put_contents( $file_name, $html );
+                        }
+                    }
 
                     $plugin_data = get_plugin_data( __FILE__ );
 
@@ -224,6 +289,13 @@ class UM_Format_Form_Content {
                             );
 
                     $section_fields[] = array(
+                                'id'             => 'um_format_form_content_profile_form_html',
+                                'type'           => 'checkbox',
+                                'label'          => $prefix . __( 'Make a HTML file', 'ultimate-member' ),
+                                'checkbox_label' => __( 'Click to make a HTML file of this User Profile Form to "formatted-FORMID.html" in the upload directory. Rename file for editing.', 'ultimate-member' ),
+                            );
+
+                    $section_fields[] = array(
                                 'id'             => 'um_format_form_content_no_photo',
                                 'type'           => 'select',
                                 'multi'          => true,
@@ -244,4 +316,3 @@ class UM_Format_Form_Content {
 }
 
 new UM_Format_Form_Content();
-
