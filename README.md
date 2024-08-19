@@ -47,7 +47,7 @@ Plugin version update check each 24 hours with documentation link.
 #### Example of the "formatted.html" file
  <code>&lt;ul&gt;
     &lt;li&gt;Name: {display_name}&lt;/li&gt;
-    &lt;li&gt;Profile description:&lt;div&gt;[show_field_key="description"]&lt;/div&gt;&lt;/li&gt;
+    &lt;li&gt;Profile description:&lt;div&gt;[show_field meta_key="description"]&lt;/div&gt;&lt;/li&gt;
     &lt;li&gt;My email is {email}&lt;/li&gt;
 &lt;/ul&gt;</code>
 
