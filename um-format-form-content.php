@@ -2,7 +2,7 @@
 /**
  * Plugin Name:         Ultimate Member - Format Form Content shortcodes
  * Description:         Extension to Ultimate Member for display of custom HTML format of User Profile form content and option to remove Profile Photos from selected Profile pages.
- * Version:             2.0.1
+ * Version:             2.0.2
  * Requires PHP:        7.4
  * Author:              Miss Veronica
  * License:             GPL v3 or later
@@ -182,17 +182,25 @@ class UM_Format_Form_Content {
                 $meta_value = trim( $meta_value );
             }
 
-            if ( ! empty( $meta_value ) && isset( $this->form_custom_fields[$atts['meta_key']]['type'] )) {
+            if ( ! empty( $meta_value )) {
+                if ( isset( $this->form_custom_fields[$atts['meta_key']]['type'] )) {
 
-                switch( $this->form_custom_fields[$atts['meta_key']]['type'] ) {
+                    switch( $this->form_custom_fields[$atts['meta_key']]['type'] ) {
 
-                    case 'url':     $meta_value = '<a href="' . $meta_value . '">' . $meta_value . '</a>'; break;
-                    case 'tel':     $meta_value = '<a href="tel:' . $meta_value . '">' . $meta_value . '</a>'; break;
-                    case 'text':    if ( is_email( $meta_value )) {
-                                        $meta_value = '<a href="mailto:' . $meta_value . '">' . $meta_value . '</a>';
-                                    }
-                                    break;
-                    default:        break;
+                        case 'url':     $meta_value = '<a href="' . $meta_value . '">' . $meta_value . '</a>'; break;
+                        case 'tel':     $meta_value = '<a href="tel:' . $meta_value . '">' . $meta_value . '</a>'; break;
+                        case 'text':    if ( is_email( $meta_value )) {
+                                            $meta_value = '<a href="mailto:' . $meta_value . '">' . $meta_value . '</a>';
+                                        }
+                                        break;
+                        default:        break;
+                    }
+                }
+
+            } else {
+
+                if ( UM()->options()->get( 'um_format_form_content_remove_empty' ) == 1 ) {
+                    $meta_value = '##EMPTY##';
                 }
             }
         }
@@ -239,14 +247,8 @@ class UM_Format_Form_Content {
                                 $new_rows = array();
                                 $rows = array_map( 'trim', explode( "\n", $html ));
 
-                                if ( UM()->options()->get( 'um_format_form_content_format' ) == 'list' ) {
-                                    $empty_html = '></div>';
-                                } else {
-                                    $empty_html = '></td>';
-                                }
-
                                 foreach( $rows as $row ) {
-                                    if ( strpos( $row, ' </li>') === false && strpos( $row, $empty_html ) === false) {
+                                    if ( strpos( $row, '##EMPTY##' ) === false ) {
                                         $new_rows[] = $row;
                                     }
                                 }
