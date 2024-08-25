@@ -1,4 +1,4 @@
-# UM Format Form Content shortcodes version 2.0.1
+# UM Format Form Content shortcodes version 2.0.2
 Extension to Ultimate Member for display of custom HTML format of User Profile form contents by a HTML formatted file being displayed by the shortcode and option to remove Profile Photos from selected Profile pages.
 
 ## Shortcodes
@@ -44,7 +44,7 @@ Plugin version update check each 24 hours with documentation link.
 6. UM email templates placeholders can also be used.
 7. https://docs.ultimatemember.com/article/1340-placeholders-for-email-templates
 
-#### Example of the "formatted.html" file
+#### Example of the "formatted.html" file in HTML List format
  <code>&lt;ul&gt;
     &lt;li&gt;Name: {display_name}&lt;/li&gt;
     &lt;li&gt;Profile description:&lt;div&gt;[show_field meta_key="description"]&lt;/div&gt;&lt;/li&gt;
@@ -82,6 +82,7 @@ https://www.w3schools.com/html/default.asp
 7. Version 1.5.0 Addition of HTML file selection dropdown which replaces file name in the shortcode now only <code>[format_form_content]</code> is required
 8. Version 2.0.0 UM extensions setting. Read updated readme file for changes. Replace the Profile page shortcode <code>[select_um_shortcode]</code> with UM default shortcode for the Profile Form.
 9. Version 2.0.1 Code improvement for detecting empty lines.
+10. Version 2.0.2 New solution for detection of empty lines.
 
 ## Installation & Updates
 1. Download the plugin ZIP file at the green Code button
