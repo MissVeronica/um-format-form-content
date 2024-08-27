@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ultimate Member - Format Form Content shortcodes\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-19 13:31+0000\n"
+"POT-Creation-Date: 2024-08-27 11:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -229,3 +229,4 @@ msgstr ""
 #: um-format-form-content.php:536
 msgid "Version number not found"
 msgstr ""
+
