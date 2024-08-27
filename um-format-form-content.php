@@ -2,7 +2,7 @@
 /**
  * Plugin Name:         Ultimate Member - Format Form Content shortcodes
  * Description:         Extension to Ultimate Member for display of custom HTML format of User Profile form content and option to remove Profile Photos from selected Profile pages.
- * Version:             2.0.2
+ * Version:             2.0.3
  * Requires PHP:        7.4
  * Author:              Miss Veronica
  * License:             GPL v3 or later
@@ -16,6 +16,7 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! class_exists( 'UM' ) ) return;
 
 class UM_Format_Form_Content {
 
@@ -210,60 +211,57 @@ class UM_Format_Form_Content {
 
     public function format_form_content_shortcode( $atts = false, $content = false ) {
 
-        if ( class_exists( 'UM' )) {
+        $html_file = UM()->options()->get( 'um_format_form_content_profile_html_file' );
 
-            $html_file = UM()->options()->get( 'um_format_form_content_profile_html_file' );
+        if ( empty( $html_file ) && ! empty( $content )) {
+            $html_file = trim( $content );
+        }
 
-            if ( empty( $html_file ) && ! empty( $content )) {
-                $html_file = trim( $content );
-            }
+        if ( ! empty( $html_file )) {
 
-            if ( ! empty( $html_file )) {
+            $html_file = $this->directory . $html_file;
 
-                $html_file = $this->directory . $html_file;
+            if ( file_exists( $html_file )) {
 
-                if ( file_exists( $html_file )) {
+                $file_content = file_get_contents( $html_file );
+                if ( ! empty( $file_content )) {
 
-                    $file_content = file_get_contents( $html_file );
-                    if ( ! empty( $file_content )) {
+                    $html_level = UM()->options()->get( 'um_format_form_content_html' );
+                    if ( in_array( $html_level, array( 'default', 'templates', 'wp-admin' ))) {
 
-                        $html_level = UM()->options()->get( 'um_format_form_content_html' );
-                        if ( in_array( $html_level, array( 'default', 'templates', 'wp-admin' ))) {
+                        if ( version_compare( get_bloginfo( 'version' ),'5.4', '<' ) ) {
+                            $html = do_shortcode( $file_content );
 
-                            if ( version_compare( get_bloginfo( 'version' ),'5.4', '<' ) ) {
-                                $html = do_shortcode( $file_content );
-
-                            } else {
-                                $html = apply_shortcodes( $file_content );
-                            }
-
-                            add_filter( 'um_template_tags_patterns_hook', array( UM()->mail(), 'add_placeholder' ), 10, 1 );
-                            add_filter( 'um_template_tags_replaces_hook', array( UM()->mail(), 'add_replace_placeholder' ), 10, 1 );
-
-                            $html = um_convert_tags( $html, array() );
-
-                            if ( UM()->options()->get( 'um_format_form_content_remove_empty' ) == 1 ) {
-
-                                $new_rows = array();
-                                $rows = array_map( 'trim', explode( "\n", $html ));
-
-                                foreach( $rows as $row ) {
-                                    if ( strpos( $row, '##EMPTY##' ) === false ) {
-                                        $new_rows[] = $row;
-                                    }
-                                }
-
-                                $html = implode( "\n", $new_rows );
-                            }
-
-                            add_filter( 'um_late_escaping_allowed_tags', array( $this, 'um_format_form_content_allowed_tags' ), 99, 2 );
-
-                            $html = wp_kses( $html, UM()->get_allowed_html( $html_level ) );
-
-                            remove_filter( 'um_late_escaping_allowed_tags', array( $this, 'um_format_form_content_allowed_tags' ), 99, 2 );
-
-                            return $html;
+                        } else {
+                            $html = apply_shortcodes( $file_content );
                         }
+
+                        add_filter( 'um_template_tags_patterns_hook', array( UM()->mail(), 'add_placeholder' ), 10, 1 );
+                        add_filter( 'um_template_tags_replaces_hook', array( UM()->mail(), 'add_replace_placeholder' ), 10, 1 );
+
+                        $html = um_convert_tags( $html, array() );
+
+                        if ( UM()->options()->get( 'um_format_form_content_remove_empty' ) == 1 ) {
+
+                            $new_rows = array();
+                            $rows = array_map( 'trim', explode( "\n", $html ));
+
+                            foreach( $rows as $row ) {
+                                if ( strpos( $row, '##EMPTY##' ) === false ) {
+                                    $new_rows[] = $row;
+                                }
+                            }
+
+                            $html = implode( "\n", $new_rows );
+                        }
+
+                        add_filter( 'um_late_escaping_allowed_tags', array( $this, 'um_format_form_content_allowed_tags' ), 99, 2 );
+
+                        $html = wp_kses( $html, UM()->get_allowed_html( $html_level ) );
+
+                        remove_filter( 'um_late_escaping_allowed_tags', array( $this, 'um_format_form_content_allowed_tags' ), 99, 2 );
+
+                        return $html;
                     }
                 }
             }
@@ -632,3 +630,4 @@ class UM_Format_Form_Content {
 }
 
 new UM_Format_Form_Content();
+
