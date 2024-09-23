@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ultimate Member - Format Form Content shortcodes\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-27 11:24+0000\n"
+"POT-Creation-Date: 2024-09-23 07:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -13,37 +13,37 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.6.11; wp-6.6.1\n"
+"X-Loco-Version: 2.6.11; wp-6.6.2\n"
 "X-Domain: format-form-content"
 
-#: um-format-form-content.php:401
+#: um-format-form-content.php:457
 #, php-format
 msgid "%s version %s - tested with UM 2.8.6"
 msgstr ""
 
-#: um-format-form-content.php:420
+#: um-format-form-content.php:476
 msgid ""
 "All three levels allow these additional tags &lt;ul&gt;, &lt;li&gt; and &lt;"
 "table&gt;, &lt;tr&gt;, &lt;th&gt;, &lt;td&gt; for this plugin."
 msgstr ""
 
-#: um-format-form-content.php:445
+#: um-format-form-content.php:501
 msgid ""
 "Click to create a HTML file of this User Profile Form to \"formatted-FORMID."
 "html\" in the upload directory. Rename file before editing."
 msgstr ""
 
-#: um-format-form-content.php:475
+#: um-format-form-content.php:531
 msgid ""
 "Click to remove empty lines (except the title) when the meta field value is "
 "empty."
 msgstr ""
 
-#: um-format-form-content.php:444
+#: um-format-form-content.php:500
 msgid "Create a HTML file"
 msgstr ""
 
-#: um-format-form-content.php:567
+#: um-format-form-content.php:623
 msgid "cURL extension not loaded by PHP"
 msgstr ""
 
@@ -54,46 +54,46 @@ msgid ""
 "Profile pages."
 msgstr ""
 
-#: um-format-form-content.php:323
+#: um-format-form-content.php:361
 msgid "Field content"
 msgstr ""
 
-#: um-format-form-content.php:342
+#: um-format-form-content.php:380
 #, php-format
 msgid "File \"%s\" created with %d Profile Form fields."
 msgstr ""
 
-#: um-format-form-content.php:400
+#: um-format-form-content.php:456
 msgid "Format Form Content shortcode"
 msgstr ""
 
-#: um-format-form-content.php:371
+#: um-format-form-content.php:409
 msgid "Format Form Content shortcodes"
 msgstr ""
 
-#: um-format-form-content.php:395 um-format-form-content.php:548
+#: um-format-form-content.php:451 um-format-form-content.php:604
 msgid "GitHub plugin documentation and download"
 msgstr ""
 
-#: um-format-form-content.php:553
+#: um-format-form-content.php:609
 #, php-format
 msgid "Github plugin version status is checked each 24 hours last at %s."
 msgstr ""
 
-#: um-format-form-content.php:563
+#: um-format-form-content.php:619
 #, php-format
 msgid "GitHub remote connection cURL error: %s"
 msgstr ""
 
-#: um-format-form-content.php:416
+#: um-format-form-content.php:472
 msgid "High - WP Admin HTML tags"
 msgstr ""
 
-#: um-format-form-content.php:454
+#: um-format-form-content.php:510
 msgid "HTML List"
 msgstr ""
 
-#: um-format-form-content.php:455
+#: um-format-form-content.php:511
 msgid "HTML Table"
 msgstr ""
 
@@ -105,11 +105,11 @@ msgstr ""
 msgid "https://github.com/MissVeronica/um-format-form-content"
 msgstr ""
 
-#: um-format-form-content.php:414
+#: um-format-form-content.php:470
 msgid "Low - Default WP HTML tags"
 msgstr ""
 
-#: um-format-form-content.php:415
+#: um-format-form-content.php:471
 msgid "Medium - Email template HTML tags"
 msgstr ""
 
@@ -117,90 +117,95 @@ msgstr ""
 msgid "Miss Veronica"
 msgstr ""
 
-#: um-format-form-content.php:396
+#: um-format-form-content.php:452
 msgid "Plugin"
 msgstr ""
 
-#: um-format-form-content.php:549
+#: um-format-form-content.php:605
 msgid "Plugin documentation"
 msgstr ""
 
-#: um-format-form-content.php:532
+#: um-format-form-content.php:588
 #, php-format
 msgid "Plugin is updated to the latest version %s."
 msgstr ""
 
-#: um-format-form-content.php:493
+#: um-format-form-content.php:549
 msgid "Plugin version update failure"
 msgstr ""
 
-#: um-format-form-content.php:540
+#: um-format-form-content.php:596
 msgid "Plugin version update validation failure"
 msgstr ""
 
-#: um-format-form-content.php:527
+#: um-format-form-content.php:583
 msgid "Plugin version update verification failed"
 msgstr ""
 
-#: um-format-form-content.php:484
+#: um-format-form-content.php:540
 msgid "Profile Forms to remove Profile Photo"
 msgstr ""
 
-#: um-format-form-content.php:474
+#: um-format-form-content.php:430
+#, php-format
+msgid "Profile Permalink Base \"%s\" is not supported by this plugin."
+msgstr ""
+
+#: um-format-form-content.php:530
 msgid "Remove lines with empty field values"
 msgstr ""
 
-#: um-format-form-content.php:428
+#: um-format-form-content.php:484
 msgid "Select \"Profile View\" only Form"
 msgstr ""
 
-#: um-format-form-content.php:437
+#: um-format-form-content.php:493
 msgid "Select default User Profile Form"
 msgstr ""
 
-#: um-format-form-content.php:467
+#: um-format-form-content.php:523
 msgid "Select HTML file for shortcode formatting"
 msgstr ""
 
-#: um-format-form-content.php:468
+#: um-format-form-content.php:524
 msgid ""
 "Select HTML file for use by the shortcode [format_form_content] in the "
 "formatting of the view only Profile Form"
 msgstr ""
 
-#: um-format-form-content.php:458
+#: um-format-form-content.php:514
 msgid ""
 "Select HTML file format \"list\" or \"Table\" for the shortcode "
 "[format_form_content]"
 msgstr ""
 
-#: um-format-form-content.php:457
+#: um-format-form-content.php:513
 msgid "Select HTML format"
 msgstr ""
 
-#: um-format-form-content.php:418
+#: um-format-form-content.php:474
 msgid "Select level of HTML tags allowed"
 msgstr ""
 
-#: um-format-form-content.php:419
+#: um-format-form-content.php:475
 msgid "Select one of the three levels of HTML tags allowed: Low, Medium, High."
 msgstr ""
 
-#: um-format-form-content.php:485
+#: um-format-form-content.php:541
 msgid "Select single or multiple Profile Forms for Profile Photo removal."
 msgstr ""
 
-#: um-format-form-content.php:429
+#: um-format-form-content.php:485
 msgid ""
 "Select the Profile form with the shortcode field for the "
 "[format_form_content] shortcode."
 msgstr ""
 
-#: um-format-form-content.php:438
+#: um-format-form-content.php:494
 msgid "Select User Profile Form for the site's Members."
 msgstr ""
 
-#: um-format-form-content.php:322
+#: um-format-form-content.php:360
 msgid "Title"
 msgstr ""
 
@@ -208,25 +213,30 @@ msgstr ""
 msgid "Ultimate Member - Format Form Content shortcodes"
 msgstr ""
 
-#: um-format-form-content.php:534
+#: um-format-form-content.php:590
 msgid "Unknown encoding format returned from GitHub"
 msgstr ""
 
-#: um-format-form-content.php:356
+#: um-format-form-content.php:394
 msgid "Unknown Profile Form"
 msgstr ""
 
-#: um-format-form-content.php:530
+#: um-format-form-content.php:586
 #, php-format
 msgid "Update to %s plugin version %s%s is now available for download."
 msgstr ""
 
-#: um-format-form-content.php:538
+#: um-format-form-content.php:594
 #, php-format
 msgid "Update to plugin version %s is now available for download from GitHub."
 msgstr ""
 
-#: um-format-form-content.php:536
+#: um-format-form-content.php:592
 msgid "Version number not found"
 msgstr ""
 
+#: um-format-form-content.php:431
+#, php-format
+msgid ""
+"You must use either \"%s\" or \"%s\" as Profile Permalink Base at UM %s."
+msgstr ""
