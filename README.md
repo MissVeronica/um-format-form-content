@@ -1,11 +1,12 @@
-# UM Format Form Content shortcodes version 2.0.3
+# UM Format Form Content shortcodes version 2.0.4
 Extension to Ultimate Member for display of custom HTML format of User Profile form contents by a HTML formatted file being displayed by the shortcode and option to remove Profile Photos from selected Profile pages.
 
 ## Shortcodes
 ### <code>[format_form_content]</code>
 Shortcode to be used in the "Profile View" form to display the custom HTML file. HTML file to be used is selected in a dropdown of the Plugin settings
 ### <code>[show_field meta_key=""]</code>
-The plugin's shortcode for getting metadata from UM User cache for the current Profile owner fields incl formatting URLs
+1. The plugin's shortcode for getting metadata from UM User cache for the current Profile owner fields incl formatting URLs
+2. Multi selections fields with more than one selection are ordered in lists by the shortcode
 ### <code>[um_user user_id="" meta_key=""]</code>
 User Meta Shortcode from UM free extensions may be used for metadata display not available from the current User Profile cache where <code>[show_field meta_key=""]</code> is recommended to be used. 
 https://ultimatemember.github.io/docs-v3/extended/article/1673-user-meta-shortcode.html
@@ -34,6 +35,7 @@ Plugin version update check each 24 hours with documentation link.
 
 ## UM Settings -> General -> Users
 1. Profile Permalink Base - Current version of the plugin only supports "User ID" and "Username"
+2. Profile settings are disabled for not supported Profile Permalink Base settings
 
 ## Custom HTML formatted file
 1. Create the custom HTML file of your Profile form with the plugin setting.
@@ -58,6 +60,15 @@ Plugin version update check each 24 hours with documentation link.
     <li>Profile description: <div>[show_field meta_key="description"]</div></li>
     <li>My email is {email}</li>
 </ul>
+
+#### Multi selections fields with more than one selection are ordered in lists by the plugin shortcode "show_field"
+<code>&lt;li&gt;Title:
+   &lt;ul&gt;
+      &lt;li&gt;Student&lt;/li&gt;
+      &lt;li&gt;Teacher&lt;/li&gt;
+   &lt;/ul&gt;
+&lt;/li&gt;</code>
+
 
 ## Translations & Text changes
 1. Use the "Loco Translate" plugin.
@@ -84,6 +95,7 @@ https://www.w3schools.com/html/default.asp
 9. Version 2.0.1 Code improvement for detecting empty lines.
 10. Version 2.0.2 New solution for detection of empty lines.
 11. Version 2.0.3 Code improvement
+12. Version 2.0.4 Multi selections fields in lists, plugin settings disabled for unsupported Profile Permalink Base settings, code improvements.
 
 ## Installation & Updates
 1. Download the plugin ZIP file at the green Code button
