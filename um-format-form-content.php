@@ -2,7 +2,7 @@
 /**
  * Plugin Name:         Ultimate Member - Format Form Content shortcodes
  * Description:         Extension to Ultimate Member for display of custom HTML format of User Profile form content and option to remove Profile Photos from selected Profile pages.
- * Version:             2.0.3
+ * Version:             2.0.4
  * Requires PHP:        7.4
  * Author:              Miss Veronica
  * License:             GPL v3 or later
@@ -79,11 +79,20 @@ class UM_Format_Form_Content {
             foreach( $form_fields as $metakey => $form_field ) {
 
                 if ( ! in_array( $metakey, $this->except_metakeys ) && ! in_array( $form_field['type'], $this->exclude_field_types )) {
+                    if ( isset( $form_field['visibility'] ) && $form_field['visibility'] == 'all' ) {
 
-                    $title = isset( $form_field['title'] ) ? $form_field['title'] : '';
-                    $title = isset( $form_field['label'] ) ? $form_field['label'] : $title;
+                        $title = isset( $form_field['title'] ) ? $form_field['title'] : '';
+                        $title = isset( $form_field['label'] ) ? $form_field['label'] : $title;
+                        $html  = isset( $form_field['html'] )  ? $form_field['html']  : false;
 
-                    $this->form_custom_fields[$metakey] = array( 'title' => esc_attr( $title ), 'type' => $form_field['type'] );
+                        if ( $metakey == 'description' && UM()->options()->get( 'profile_show_html_bio' ) == 1 ) {
+                            $html = true;
+                        }
+
+                        $this->form_custom_fields[$metakey] = array( 'title' => esc_attr( $title ), 
+                                                                     'type'  => $form_field['type'],
+                                                                     'html'  => $html );
+                    }
                 }
             }
         }
@@ -107,6 +116,7 @@ class UM_Format_Form_Content {
         global $current_user;
 
         $profile_form = UM()->options()->get( 'um_format_form_content_profile_form' );
+
         if ( ! empty( $profile_form ) && array_key_exists( $profile_form, $this->profile_forms )) {
 
             if ( ! current_user_can( 'administrator' )) {
@@ -177,25 +187,53 @@ class UM_Format_Form_Content {
             $meta_value = um_user( $atts['meta_key'] );
 
             if ( is_array( $meta_value ) ) {
-                $meta_value = implode( ',', $meta_value );
+                if ( count( $meta_value ) > 1 ) {
 
-            } else {
-                $meta_value = trim( $meta_value );
+                    $output = "\n<ul>\n";
+                    foreach( $meta_value as $value ) {
+                        $output .= '<li>' . esc_attr( $value ) . "</li>\n";
+                    }
+                    $output .= "</ul>\n";
+
+                    return $output;
+
+                } else {
+                    $meta_value = array_shift( $meta_value );
+                }
             }
 
             if ( ! empty( $meta_value )) {
+                $meta_value = trim( $meta_value );
+
                 if ( isset( $this->form_custom_fields[$atts['meta_key']]['type'] )) {
 
                     switch( $this->form_custom_fields[$atts['meta_key']]['type'] ) {
 
-                        case 'url':     $meta_value = '<a href="' . $meta_value . '">' . $meta_value . '</a>'; break;
-                        case 'tel':     $meta_value = '<a href="tel:' . $meta_value . '">' . $meta_value . '</a>'; break;
-                        case 'text':    if ( is_email( $meta_value )) {
-                                            $meta_value = '<a href="mailto:' . $meta_value . '">' . $meta_value . '</a>';
-                                        }
-                                        break;
-                        default:        break;
+                        case 'url':         $meta_value = '<a href="' . esc_url( $meta_value ) . '">' . esc_url( $meta_value ) . '</a>'; 
+                                            break;
+
+                        case 'tel':         $meta_value = '<a href="tel:' . esc_attr( $meta_value ) . '">' . esc_attr( $meta_value ) . '</a>'; 
+                                            break;
+
+                        case 'text':        if ( is_email( $meta_value )) {
+                                                $meta_value = '<a href="mailto:' . esc_html( $meta_value ) . '">' . esc_html( $meta_value ) . '</a>';
+                                            }
+                                            break;
+
+                        case 'textarea':    if ( ! $this->form_custom_fields[$atts['meta_key']]['html'] ) {
+                                                $meta_value = esc_attr( $meta_value );
+
+                                            } else {
+                                                $meta_value = wp_kses( $meta_value, UM()->get_allowed_html( 'templates' ) );
+                                            }
+                                            break;
+
+                        default:            $meta_value = esc_attr( $meta_value );
+                                            break;
                     }
+
+                } else {
+                    $meta_value = esc_attr( $meta_value );
                 }
 
             } else {
@@ -301,7 +339,7 @@ class UM_Format_Form_Content {
 
                 if ( UM()->options()->get( 'um_format_form_content_format' ) == 'list' ) {
 
-                    $html = "<div style=\"padding-left: 30px;\"><ul>\n";
+                    $html = "\n<div style=\"padding-left: 30px;\"><ul>\n";
                     foreach( $this->form_custom_fields as $metakey => $array ) {
 
                         $title = $array['title'];
@@ -377,7 +415,25 @@ class UM_Format_Form_Content {
                         $this->prepare_page_settings();
 
                         $settings['extensions']['sections']['format-form-content']['description'] = $this->get_possible_plugin_update( 'um-format-form-content' );
-                        $settings['extensions']['sections']['format-form-content']['fields'] = $this->create_plugin_settings_fields();
+
+                        $permalink_base = UM()->options()->get( 'permalink_base' );
+
+                        if ( in_array( $permalink_base, array( 'user_login', 'user_id' ))) {
+
+                            $settings['extensions']['sections']['format-form-content']['fields'] = $this->create_plugin_settings_fields();
+
+                        } else {
+
+                            $url = get_admin_url() . 'admin.php?page=um_options&section=users';
+                            $link = '<a href="' . esc_url( $url ) . '">' . __( 'Settings' ) . '</a>';
+
+                            $message1 = sprintf( __( 'Profile Permalink Base "%s" is not supported by this plugin.', 'format-form-content' ), UM()->config()->permalink_base_options[$permalink_base] );
+                            $message2 = sprintf( __( 'You must use either "%s" or "%s" as Profile Permalink Base at UM %s.', 'format-form-content' ), UM()->config()->permalink_base_options['user_login'],
+                                                                                                                                                      UM()->config()->permalink_base_options['user_id'],
+                                                                                                                                                      $link );
+
+                            $settings['extensions']['sections']['format-form-content']['description'] .= '<br />' . $message1 . '<br />' . $message2;
+                        }
                     }
                 }
             }
