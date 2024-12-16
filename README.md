@@ -1,4 +1,4 @@
-# UM Format Form Content shortcodes version 2.0.4
+# UM Format Form Content shortcodes version 2.0.5
 Extension to Ultimate Member for display of custom HTML format of User Profile form contents by a HTML formatted file being displayed by the shortcode and option to remove Profile Photos from selected Profile pages.
 
 ## Shortcodes
@@ -96,6 +96,7 @@ https://www.w3schools.com/html/default.asp
 10. Version 2.0.2 New solution for detection of empty lines.
 11. Version 2.0.3 Code improvement
 12. Version 2.0.4 Multi selections fields in lists, plugin settings disabled for unsupported Profile Permalink Base settings, code improvements.
+13. Version 2.0.5 Fix for sites using PHP 8.4 to avoid a deprecated message. No changes in Plugin functions.
 
 ## Installation & Updates
 1. Download the plugin ZIP file at the green Code button
